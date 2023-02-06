@@ -5,7 +5,8 @@ import {PostsPropsType, ProfilePagePropsType} from "../../../Redux/state";
 
 
 type MyPostStatePropsType = {
-    state: ProfilePagePropsType
+    state: ProfilePagePropsType,
+    addPost: (postMessage: string) => void
 }
 
 export const MyPosts = (props: MyPostStatePropsType) => {
@@ -13,11 +14,19 @@ export const MyPosts = (props: MyPostStatePropsType) => {
         <Post id={item.id} message={item.message} likesCount={item.likesCount}/>
     )
 
+    const newPostElement = React.createRef<HTMLTextAreaElement>();
+
+    const onClickAddPost = () => {
+         props.addPost(newPostElement.current ? newPostElement.current.value : '')
+    }
+
     return (
         <div className={style.postsBlock}>
             <h3>My posts</h3>
-            <div><textarea/></div>
-            <button>Add post</button>
+            <div>
+                <textarea ref={newPostElement}></textarea>
+            </div>
+            <button onClick={onClickAddPost}>Add post</button>
             <div className={style.posts}>
                 {messagesData}
             </div>

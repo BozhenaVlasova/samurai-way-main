@@ -1,3 +1,5 @@
+import {rerenderEntireTree} from "../render";
+
 export type DialogsPropsType = {
     id: number,
     name: string
@@ -19,17 +21,17 @@ export type DialogsPagePropsType = {
 export type ProfilePagePropsType = {
     posts: PostsPropsType[]
 }
-type SidebarPropsType = {
-    sidebar: {}
-}
+// type SidebarPropsType = {
+//     sidebar: {}
+// }
 
 export type StateType = {
     profilePage: ProfilePagePropsType,
     dialogsPage: DialogsPagePropsType,
-    sidebar: SidebarPropsType
+    // sidebar: SidebarPropsType
 }
 
-export let state = {
+export const state = {
     profilePage: {
         posts: [
             {id: 1, message: 'Hi, how are you?', likesCount: 15},
@@ -48,7 +50,17 @@ export let state = {
             {id: 3, name: 'Anya'}
         ]
     },
-    sidebar: {}
+    // sidebar: {}
+}
+
+export const addPost = (postMessage: string) => {
+    let newPost: PostsPropsType = {
+        id: 5,
+        message: postMessage,
+        likesCount: 0
+    };
+    state.profilePage.posts.push(newPost)
+    rerenderEntireTree(state)
 }
 
 export default state;

@@ -1,7 +1,7 @@
 import React from "react";
 import {MyPosts} from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {ProfilePagePropsType, updateNewPostText} from "../../Redux/state";
+import {ProfilePagePropsType} from "../../Redux/state";
 
 type StateForProfilePropsType = {
     profilePage: ProfilePagePropsType,
@@ -10,7 +10,6 @@ type StateForProfilePropsType = {
 }
 
 export const Profile: React.FC<StateForProfilePropsType> = (props) => {
-    console.log(props)
     return (
         <div>
             <ProfileInfo />

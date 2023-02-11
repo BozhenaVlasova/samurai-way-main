@@ -34,19 +34,12 @@ export type StoreType = {
     _state: StateType
     getState: () => StateType
     _callSubscriber: (state: StateType) => void
-    addPost: () => void
-    updateNewPostText: (newPostText: string) => void
     subscribe: (observer: (state: StateType) => void) => void
     dispatch: (action: CommonAT) => void
 }
 
-type AddPostAT = {
-    type: "ADD-POST"
-}
-type UpdateNewPostTextAT = {
-    type: "UPDATE-NEW-POST-TEXT"
-    newPostText: string
-}
+type AddPostAT = ReturnType<typeof addPostAC>
+type UpdateNewPostTextAT = ReturnType<typeof updateNewPostTextAC>
 
 export type CommonAT = AddPostAT | UpdateNewPostTextAT
 
@@ -79,20 +72,6 @@ export let store: StoreType = {
     _callSubscriber(state: StateType) {
         console.log('render state')
     },
-    addPost() {
-        let newPost: PostsPropsType = {
-            id: 5,
-            message: this._state.profilePage.newPostText,
-            likesCount: 0
-        };
-        this._state.profilePage.posts.push(newPost)
-        this._state.profilePage.newPostText = ''
-        this._callSubscriber(this._state)
-    },
-    updateNewPostText(newPostText: string) {
-        this._state.profilePage.newPostText = newPostText
-        this._callSubscriber(this._state)
-    },
     subscribe(observer: (state: StateType) => void) {
         this._callSubscriber = observer
     },
@@ -106,12 +85,18 @@ export let store: StoreType = {
             this._state.profilePage.posts.push(newPost)
             this._state.profilePage.newPostText = ''
             this._callSubscriber(this._state)
-        }
-        else if (action.type === "UPDATE-NEW-POST-TEXT") {
+        } else if (action.type === "UPDATE-NEW-POST-TEXT") {
             this._state.profilePage.newPostText = action.newPostText
             this._callSubscriber(this._state)
         }
     }
 }
+
+export const addPostAC = () => ({type: "ADD-POST"}) as const
+export const updateNewPostTextAC = (newPostText: string) => ({
+    type: "UPDATE-NEW-POST-TEXT",
+    newPostText: newPostText
+}) as const
+
 //@ts-ignore
 window.store = store;

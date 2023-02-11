@@ -37,7 +37,18 @@ export type StoreType = {
     addPost: () => void
     updateNewPostText: (newPostText: string) => void
     subscribe: (observer: (state: StateType) => void) => void
+    dispatch: (action: CommonAT) => void
 }
+
+type AddPostAT = {
+    type: "ADD-POST"
+}
+type UpdateNewPostTextAT = {
+    type: "UPDATE-NEW-POST-TEXT"
+    newPostText: string
+}
+
+export type CommonAT = AddPostAT | UpdateNewPostTextAT
 
 export let store: StoreType = {
     _state: {
@@ -65,10 +76,10 @@ export let store: StoreType = {
     getState() {
         return this._state
     },
-    _callSubscriber (state: StateType) {
+    _callSubscriber(state: StateType) {
         console.log('render state')
     },
-    addPost () {
+    addPost() {
         let newPost: PostsPropsType = {
             id: 5,
             message: this._state.profilePage.newPostText,
@@ -78,13 +89,29 @@ export let store: StoreType = {
         this._state.profilePage.newPostText = ''
         this._callSubscriber(this._state)
     },
-    updateNewPostText (newPostText: string) {
+    updateNewPostText(newPostText: string) {
         this._state.profilePage.newPostText = newPostText
         this._callSubscriber(this._state)
     },
-    subscribe (observer: (state: StateType) => void) {
+    subscribe(observer: (state: StateType) => void) {
         this._callSubscriber = observer
+    },
+    dispatch(action) {
+        if (action.type === "ADD-POST") {
+            let newPost: PostsPropsType = {
+                id: 5,
+                message: this._state.profilePage.newPostText,
+                likesCount: 0
+            };
+            this._state.profilePage.posts.push(newPost)
+            this._state.profilePage.newPostText = ''
+            this._callSubscriber(this._state)
+        }
+        else if (action.type === "UPDATE-NEW-POST-TEXT") {
+            this._state.profilePage.newPostText = action.newPostText
+            this._callSubscriber(this._state)
+        }
     }
 }
-
-// window.store = store;
+//@ts-ignore
+window.store = store;

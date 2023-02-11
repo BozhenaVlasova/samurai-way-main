@@ -1,19 +1,18 @@
 import React from "react";
 import {MyPosts} from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {ProfilePagePropsType} from "../../Redux/state";
+import {CommonAT, ProfilePagePropsType} from "../../Redux/state";
 
 type StateForProfilePropsType = {
     profilePage: ProfilePagePropsType,
-    addPost: () => void,
-    updateNewPostText: (newPostText: string) => void
+    dispatch: (action: CommonAT) => void
 }
 
 export const Profile: React.FC<StateForProfilePropsType> = (props) => {
     return (
         <div>
             <ProfileInfo />
-            <MyPosts state={props.profilePage} newPostText={props.profilePage.newPostText} addPost={props.addPost} updateNewPostText={props.updateNewPostText}/>
+            <MyPosts state={props.profilePage} newPostText={props.profilePage.newPostText} dispatch={props.dispatch}/>
         </div>
     )
 }

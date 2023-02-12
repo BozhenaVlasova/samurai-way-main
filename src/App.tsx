@@ -12,18 +12,19 @@ export type AppPropsType = {
     dispatch: (action: CommonAT) => void
 }
 
-const App: React.FC<AppPropsType>  = (props) => {
+const App: React.FC<AppPropsType> = (props) => {
     return (
         <BrowserRouter>
-        <div className="app">
-            <Header />
-            <NavBar />
-            <div className='app-wrapper-content'>
-                <Route path='/dialogs' render={() => <Dialogs state={props.store.getState().dialogsPage} /> }/>
-                <Route path='/profile' render={() => <Profile profilePage={props.store.getState().profilePage}
-                                                              dispatch={props.dispatch}/>} />
+            <div className="app">
+                <Header/>
+                <NavBar/>
+                <div className='app-wrapper-content'>
+                    <Route path='/dialogs' render={() => <Dialogs dialogsPage={props.store.getState().dialogsPage}
+                                                                  dispatch={props.dispatch}/>}/>
+                    <Route path='/profile' render={() => <Profile profilePage={props.store.getState().profilePage}
+                                                                  dispatch={props.dispatch}/>}/>
+                </div>
             </div>
-        </div>
         </BrowserRouter>
     );
 }

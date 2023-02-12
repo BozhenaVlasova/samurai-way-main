@@ -14,7 +14,8 @@ export type PostsPropsType = {
 
 export type DialogsPagePropsType = {
     messages: MessagesPropsType[],
-    dialogs: DialogsPropsType[]
+    dialogs: DialogsPropsType[],
+    newMessageBody: string
 }
 export type ProfilePagePropsType = {
     posts: PostsPropsType[],
@@ -40,8 +41,10 @@ export type StoreType = {
 
 type AddPostAT = ReturnType<typeof addPostAC>
 type UpdateNewPostTextAT = ReturnType<typeof updateNewPostTextAC>
+type UpdateNewMessageBodyAT = ReturnType<typeof updateNewMessageBodyAC>
+type SendMessageAT = ReturnType<typeof sendMessageAC>
 
-export type CommonAT = AddPostAT | UpdateNewPostTextAT
+export type CommonAT = AddPostAT | UpdateNewPostTextAT | UpdateNewMessageBodyAT | SendMessageAT
 
 export let store: StoreType = {
     _state: {
@@ -62,7 +65,8 @@ export let store: StoreType = {
                 {id: 1, name: 'Bozhena'},
                 {id: 2, name: 'Kolya'},
                 {id: 3, name: 'Anya'}
-            ]
+            ],
+            newMessageBody: ''
         },
         // sidebar: {}
     },
@@ -88,6 +92,17 @@ export let store: StoreType = {
         } else if (action.type === "UPDATE-NEW-POST-TEXT") {
             this._state.profilePage.newPostText = action.newPostText
             this._callSubscriber(this._state)
+        } else if (action.type === "SEND-MESSAGE") {
+            let textMessageBody: MessagesPropsType = {
+                id: 6,
+                message: this._state.dialogsPage.newMessageBody
+            }
+            this._state.dialogsPage.messages.push(textMessageBody)
+            this._state.dialogsPage.newMessageBody = ''
+            this._callSubscriber(this._state)
+        } else if (action.type === "UPDATE-NEW-MESSAGE-BODY") {
+            this._state.dialogsPage.newMessageBody = action.newMessageBody
+            this._callSubscriber(this._state)
         }
     }
 }
@@ -96,6 +111,12 @@ export const addPostAC = () => ({type: "ADD-POST"}) as const
 export const updateNewPostTextAC = (newPostText: string) => ({
     type: "UPDATE-NEW-POST-TEXT",
     newPostText: newPostText
+}) as const
+
+export const sendMessageAC = () => ({type: "SEND-MESSAGE"}) as const
+export const updateNewMessageBodyAC = (newMessageText: string) => ({
+    type: "UPDATE-NEW-MESSAGE-BODY",
+    newMessageBody: newMessageText
 }) as const
 
 //@ts-ignore

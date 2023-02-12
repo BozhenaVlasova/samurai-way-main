@@ -1,3 +1,6 @@
+import profileReducer, {ProfileAT} from "./profile-reducer";
+import dialogsReducer, {DialogsAT} from "./dialogs-reducer";
+
 export type DialogsPropsType = {
     id: number,
     name: string
@@ -36,15 +39,10 @@ export type StoreType = {
     getState: () => StateType
     _callSubscriber: (state: StateType) => void
     subscribe: (observer: (state: StateType) => void) => void
-    dispatch: (action: CommonAT) => void
+    dispatch: (action: any) => void
 }
 
-type AddPostAT = ReturnType<typeof addPostAC>
-type UpdateNewPostTextAT = ReturnType<typeof updateNewPostTextAC>
-type UpdateNewMessageBodyAT = ReturnType<typeof updateNewMessageBodyAC>
-type SendMessageAT = ReturnType<typeof sendMessageAC>
-
-export type CommonAT = AddPostAT | UpdateNewPostTextAT | UpdateNewMessageBodyAT | SendMessageAT
+export type CommonAT = ProfileAT | DialogsAT
 
 export let store: StoreType = {
     _state: {
@@ -80,44 +78,11 @@ export let store: StoreType = {
         this._callSubscriber = observer
     },
     dispatch(action) {
-        if (action.type === "ADD-POST") {
-            let newPost: PostsPropsType = {
-                id: 5,
-                message: this._state.profilePage.newPostText,
-                likesCount: 0
-            };
-            this._state.profilePage.posts.push(newPost)
-            this._state.profilePage.newPostText = ''
-            this._callSubscriber(this._state)
-        } else if (action.type === "UPDATE-NEW-POST-TEXT") {
-            this._state.profilePage.newPostText = action.newPostText
-            this._callSubscriber(this._state)
-        } else if (action.type === "SEND-MESSAGE") {
-            let textMessageBody: MessagesPropsType = {
-                id: 6,
-                message: this._state.dialogsPage.newMessageBody
-            }
-            this._state.dialogsPage.messages.push(textMessageBody)
-            this._state.dialogsPage.newMessageBody = ''
-            this._callSubscriber(this._state)
-        } else if (action.type === "UPDATE-NEW-MESSAGE-BODY") {
-            this._state.dialogsPage.newMessageBody = action.newMessageBody
-            this._callSubscriber(this._state)
-        }
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+        this._callSubscriber(this._state)
     }
 }
-
-export const addPostAC = () => ({type: "ADD-POST"}) as const
-export const updateNewPostTextAC = (newPostText: string) => ({
-    type: "UPDATE-NEW-POST-TEXT",
-    newPostText: newPostText
-}) as const
-
-export const sendMessageAC = () => ({type: "SEND-MESSAGE"}) as const
-export const updateNewMessageBodyAC = (newMessageText: string) => ({
-    type: "UPDATE-NEW-MESSAGE-BODY",
-    newMessageBody: newMessageText
-}) as const
 
 //@ts-ignore
 window.store = store;

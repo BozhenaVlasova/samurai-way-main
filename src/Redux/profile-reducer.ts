@@ -1,13 +1,21 @@
 import {
     PostsPropsType,
     ProfilePagePropsType
-} from "./state";
+} from "./store";
 
 type AddPostAT = ReturnType<typeof addPostAC>
 type UpdateNewPostTextAT = ReturnType<typeof updateNewPostTextAC>
 export type ProfileAT = AddPostAT | UpdateNewPostTextAT
 
-const profileReducer = (state: ProfilePagePropsType, action: ProfileAT): ProfilePagePropsType => {
+let initialState = {
+    posts: [
+        {id: 1, message: 'Hi, how are you?', likesCount: 15},
+        {id: 2, message: 'It\'s my first message!', likesCount: 17}
+    ],
+    newPostText: ''
+}
+
+const profileReducer = (state: ProfilePagePropsType = initialState, action: ProfileAT): ProfilePagePropsType => {
     switch (action.type) {
         case "ADD-POST":
             let newPost: PostsPropsType = {

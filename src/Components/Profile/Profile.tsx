@@ -1,7 +1,7 @@
 import React from "react";
 import {MyPosts} from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {CommonAT, ProfilePagePropsType} from "../../Redux/state";
+import {CommonAT, ProfilePagePropsType} from "../../Redux/store";
 
 type StateForProfilePropsType = {
     profilePage: ProfilePagePropsType,

@@ -4,17 +4,16 @@ import {Header} from "./Components/Header/Header";
 import {NavBar} from "./Components/Navbar/NavBar";
 import {Profile} from "./Components/Profile/Profile";
 import Dialogs from "./Components/Dialogs/Dialogs";
-import {BrowserRouter, Route} from "react-router-dom";
-import {CommonAT, StoreType} from "./Redux/state";
+import {Route} from "react-router-dom";
+import {CommonAT, StoreType} from "./Redux/store";
 
 export type AppPropsType = {
-    store: StoreType
+    store: any
     dispatch: (action: CommonAT) => void
 }
 
 const App: React.FC<AppPropsType> = (props) => {
     return (
-        <BrowserRouter>
             <div className="app">
                 <Header/>
                 <NavBar/>
@@ -25,7 +24,6 @@ const App: React.FC<AppPropsType> = (props) => {
                                                                   dispatch={props.dispatch}/>}/>
                 </div>
             </div>
-        </BrowserRouter>
     );
 }
 

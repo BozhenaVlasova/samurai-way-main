@@ -1,13 +1,27 @@
 import {
     DialogsPagePropsType,
     MessagesPropsType
-} from "./state";
+} from "./store";
 
 type UpdateNewMessageBodyAT = ReturnType<typeof updateNewMessageBodyAC>
 type SendMessageAT = ReturnType<typeof sendMessageAC>
 export type DialogsAT = UpdateNewMessageBodyAT | SendMessageAT
 
-const dialogsReducer = (state: DialogsPagePropsType, action: DialogsAT): DialogsPagePropsType => {
+let initialState = {
+    messages: [
+        {id: 1, message: 'Hello!'},
+        {id: 2, message: 'What\'s up?'},
+        {id: 3, message: 'Yo'}
+    ],
+    dialogs: [
+        {id: 1, name: 'Bozhena'},
+        {id: 2, name: 'Kolya'},
+        {id: 3, name: 'Anya'}
+    ],
+    newMessageBody: ''
+}
+
+const dialogsReducer = (state: DialogsPagePropsType = initialState, action: DialogsAT): DialogsPagePropsType => {
     switch (action.type) {
         case "SEND-MESSAGE":
             let textMessageBody: MessagesPropsType = {

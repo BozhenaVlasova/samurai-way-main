@@ -3,13 +3,12 @@ import './App.css';
 import {Header} from "./Components/Header/Header";
 import {NavBar} from "./Components/Navbar/NavBar";
 import {Profile} from "./Components/Profile/Profile";
-import Dialogs from "./Components/Dialogs/Dialogs";
 import {Route} from "react-router-dom";
-import {CommonAT, StoreType} from "./Redux/store";
+import store from "./Redux/redux-store";
+import DialogsComponent from "./Components/Dialogs/DialogsComponent";
 
 export type AppPropsType = {
-    store: any
-    dispatch: (action: CommonAT) => void
+    store: typeof store
 }
 
 const App: React.FC<AppPropsType> = (props) => {
@@ -18,10 +17,8 @@ const App: React.FC<AppPropsType> = (props) => {
                 <Header/>
                 <NavBar/>
                 <div className='app-wrapper-content'>
-                    <Route path='/dialogs' render={() => <Dialogs dialogsPage={props.store.getState().dialogsPage}
-                                                                  dispatch={props.dispatch}/>}/>
-                    <Route path='/profile' render={() => <Profile profilePage={props.store.getState().profilePage}
-                                                                  dispatch={props.dispatch}/>}/>
+                    <Route path='/dialogs' render={() => <DialogsComponent store={props.store}/>}/>
+                    <Route path='/profile' render={() => <Profile store={props.store}/>}/>
                 </div>
             </div>
     );

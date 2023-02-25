@@ -1,25 +1,36 @@
 import React from 'react';
-import {sendMessageAC, updateNewMessageBodyAC} from '../../Redux/dialogs-reducer';
-import store from "../../Redux/redux-store";
+import {InitialStateType, sendMessageAC, updateNewMessageBodyAC} from '../../Redux/dialogs-reducer';
+import {AppStateType} from "../../Redux/redux-store";
 import Dialogs from "./Dialogs";
+import {connect} from "react-redux";
+import {Dispatch} from "redux";
 
-type DialogsComponentPropsType = {
-    store: typeof store
+type MapStateToPropsType = {
+    dialogsPage: InitialStateType
+}
+type MapDispatchToPropsType = {
+    onChangeMessageText: (body: string) => void,
+    onClickSendMessage: () => void
+}
+export type DialogsType = MapStateToPropsType & MapDispatchToPropsType
+
+let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
+    return {
+        dialogsPage: state.dialogsPage
+    }
+}
+let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
+    return {
+        onChangeMessageText: (body: string) => {
+            dispatch(updateNewMessageBodyAC(body))
+        },
+        onClickSendMessage: () => {
+            dispatch(sendMessageAC())
+        }
+    }
 }
 
-const DialogsComponent: React.FC<DialogsComponentPropsType> = (props) => {
-    let state = props.store.getState().dialogsPage
+let DialogsComponent = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
 
-    const onChangeMessageText = (body: string) => {
-        props.store.dispatch(updateNewMessageBodyAC(body))
-    }
-
-    const onClickSendMessage = () => {
-        props.store.dispatch(sendMessageAC())
-    }
-    return (
-        <Dialogs dialogsPage={state} updateNewMessageBody={onChangeMessageText} sendMessage={onClickSendMessage}/>
-    );
-};
 
 export default DialogsComponent;

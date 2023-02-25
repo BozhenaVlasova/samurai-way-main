@@ -1,48 +1,43 @@
-import profileReducer, {ProfileAT} from "./profile-reducer";
-import dialogsReducer, {DialogsAT} from "./dialogs-reducer";
+// import profileReducer, {ProfileAT} from "./profile-reducer";
+// import dialogsReducer, {DialogsAT} from "./dialogs-reducer";
 
-export type DialogsPropsType = {
-    id: number,
-    name: string
-}
-export type MessagesPropsType = {
-    id: number,
-    message: string
-}
-export type PostsPropsType = {
-    id: number,
-    message: string,
-    likesCount: number
-}
-
-export type DialogsPagePropsType = {
-    messages: MessagesPropsType[],
-    dialogs: DialogsPropsType[],
-    newMessageBody: string
-}
-export type ProfilePagePropsType = {
-    posts: PostsPropsType[],
-    newPostText: string
-}
-// type SidebarPropsType = {
-//     sidebar: {}
+// export type DialogsPropsType = {
+//     id: number,
+//     name: string
 // }
-
-export type StateType = {
-    profilePage: ProfilePagePropsType,
-    dialogsPage: DialogsPagePropsType,
-    // sidebar: SidebarPropsType
-}
-
-export type StoreType = {
-    _state: StateType
-    getState: () => StateType
-    _callSubscriber: (state: StateType) => void
-    subscribe: (observer: (state: StateType) => void) => void
-    dispatch: (action: any) => void
-}
-
-export type CommonAT = ProfileAT | DialogsAT
+// export type MessagesPropsType = {
+//     id: number,
+//     message: string
+// }
+// export type PostsPropsType = {
+//     id: number,
+//     message: string,
+//     likesCount: number
+// }
+//
+// export type ProfilePagePropsType = {
+//     posts: PostsPropsType[],
+//     newPostText: string
+// }
+// // type SidebarPropsType = {
+// //     sidebar: {}
+// // }
+//
+// export type StateType = {
+//     profilePage: ProfilePagePropsType,
+//     dialogsPage: DialogsPagePropsType,
+//     // sidebar: SidebarPropsType
+// }
+//
+// export type StoreType = {
+//     _state: StateType
+//     getState: () => StateType
+//     _callSubscriber: (state: StateType) => void
+//     subscribe: (observer: (state: StateType) => void) => void
+//     dispatch: (action: any) => void
+// }
+//
+// export type CommonAT = ProfileAT | DialogsAT
 
 // export let store: StoreType = {
 //     _state: {

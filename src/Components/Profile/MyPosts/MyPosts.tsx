@@ -1,18 +1,12 @@
 import React, {ChangeEvent} from 'react';
 import style from "./MyPosts.module.css";
 import {Post} from "./Post/Post";
-import {PostsPropsType, ProfilePagePropsType} from "../../../Redux/store";
+import {MyPostsType} from "./MyPostsContainer";
+import {PostsType} from "../../../Redux/profile-reducer";
 
 
-type MyPostStatePropsType = {
-    statePosts: ProfilePagePropsType,
-    newPostText: string,
-    addPost: () => void
-    updateNewPostText: (text: string) => void
-}
-
-export const MyPosts = (props: MyPostStatePropsType) => {
-    let messagesData = props.statePosts.posts.map((item: PostsPropsType) =>
+export const MyPosts = (props: MyPostsType) => {
+    let messagesData = props.posts.posts.map((item: PostsType) =>
         <Post id={item.id} message={item.message} likesCount={item.likesCount}/>
     )
 

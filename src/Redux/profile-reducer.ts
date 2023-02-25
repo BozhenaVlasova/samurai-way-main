@@ -1,24 +1,28 @@
-import {
-    PostsPropsType,
-    ProfilePagePropsType
-} from "./store";
-
 type AddPostAT = ReturnType<typeof addPostAC>
 type UpdateNewPostTextAT = ReturnType<typeof updateNewPostTextAC>
 export type ProfileAT = AddPostAT | UpdateNewPostTextAT
+export type PostsType = {
+    id: number,
+    message: string,
+    likesCount: number
+}
+export type InitialStateType = {
+    posts: PostsType[]
+    newPostText: string
+}
 
 let initialState = {
     posts: [
         {id: 1, message: 'Hi, how are you?', likesCount: 15},
         {id: 2, message: 'It\'s my first message!', likesCount: 17}
-    ],
+    ] as Array<PostsType>,
     newPostText: ''
 }
 
-const profileReducer = (state: ProfilePagePropsType = initialState, action: ProfileAT): ProfilePagePropsType => {
+const profileReducer = (state: InitialStateType = initialState, action: ProfileAT): InitialStateType => {
     switch (action.type) {
         case "ADD-POST":
-            let newPost: PostsPropsType = {
+            let newPost: PostsType = {
                 id: 5,
                 message: state.newPostText,
                 likesCount: 0

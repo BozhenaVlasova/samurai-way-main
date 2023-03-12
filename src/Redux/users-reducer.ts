@@ -1,7 +1,9 @@
 type FollowAT = ReturnType<typeof followAC>
 type UnfollowAT = ReturnType<typeof unfollowAC>
 type SetUsersAT = ReturnType<typeof setUsersAC>
-export type UsersAT = FollowAT | UnfollowAT | SetUsersAT
+type SetCurrentPageAT = ReturnType<typeof setCurrentPageAC>
+type setUsersTotalCountAT = ReturnType<typeof setUsersTotalCountAC>
+export type UsersAT = FollowAT | UnfollowAT | SetUsersAT | SetCurrentPageAT | setUsersTotalCountAT
 
 export type UserType = {
     id: number,
@@ -20,19 +22,18 @@ export type UserType = {
 }
 
 export type InitialStateType = {
-    items: UserType[]
+    items: UserType[],
+    pageSize: number,
+    totalUsersCount: number,
+    currentPage: number
 }
 
 let initialState = {
-    items: [
-        // {id: 1, followed: false, fullName: 'Katya', status: 'I am a developer', location: {country: 'Belarus', city: 'Brest'}
-        // , photoUrl: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/small-cat-breeds-burmese-1558556618.jpg?crop=0.655xw:1.00xh;0.304xw,0.00261xh&resize=480:*'},
-        // {id: 2, followed: true, fullName: 'Misha', status: 'I am a manager', location: {country: 'Russia', city: 'Novosibirsk'},
-        //     photoUrl: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/small-cat-breeds-burmese-1558556618.jpg?crop=0.655xw:1.00xh;0.304xw,0.00261xh&resize=480:*'},
-        // {id: 3, followed: false, fullName: 'Zhenya', status: 'I am a teacher', location: {country: 'Ukraine', city: 'Kiev'},
-        //     photoUrl: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/small-cat-breeds-burmese-1558556618.jpg?crop=0.655xw:1.00xh;0.304xw,0.00261xh&resize=480:*'}
-    ] as Array<UserType>,
-    newPostText: ''
+    items: [] as Array<UserType>,
+    pageSize: 5,
+    totalUsersCount: 0,
+    currentPage: 1
+    // newPostText: ''
 }
 
 const usersReducer = (state: InitialStateType = initialState, action: UsersAT): InitialStateType => {
@@ -42,7 +43,11 @@ const usersReducer = (state: InitialStateType = initialState, action: UsersAT): 
         case 'UNFOLLOW':
             return {...state, items: state.items.map(user => user.id === action.userId ? {...user, followed: false} : user)}
         case 'SET-USERS':
-            return {...state, items: [...state.items, ...action.users]}
+            return {...state, items: [...action.users]}
+        case "SET-CURRENT-PAGE":
+            return {...state, currentPage: action.currentPage}
+        case "SET-USERS-TOTAL-COUNT":
+            return {...state, totalUsersCount: action.totalUsersCount}
         default:
             return state
     }
@@ -51,5 +56,7 @@ const usersReducer = (state: InitialStateType = initialState, action: UsersAT): 
 export const followAC = (userId: number) => ({type: 'FOLLOW', userId}) as const
 export const unfollowAC = (userId: number) => ({type: 'UNFOLLOW', userId}) as const
 export const setUsersAC = (users: UserType[]) => ({type: 'SET-USERS', users}) as const
+export const setCurrentPageAC = (currentPage: number) => ({type: 'SET-CURRENT-PAGE', currentPage}) as const
+export const setUsersTotalCountAC = (totalUsersCount: number) => ({type: 'SET-USERS-TOTAL-COUNT', totalUsersCount}) as const
 
 export default usersReducer;

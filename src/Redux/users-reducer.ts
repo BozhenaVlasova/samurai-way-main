@@ -1,9 +1,9 @@
-type FollowAT = ReturnType<typeof followAC>
-type UnfollowAT = ReturnType<typeof unfollowAC>
-type SetUsersAT = ReturnType<typeof setUsersAC>
-type SetCurrentPageAT = ReturnType<typeof setCurrentPageAC>
-type setUsersTotalCountAT = ReturnType<typeof setUsersTotalCountAC>
-type toggleIsFetchingAT = ReturnType<typeof toggleIsFetchingAC>
+type FollowAT = ReturnType<typeof follow>
+type UnfollowAT = ReturnType<typeof unfollow>
+type SetUsersAT = ReturnType<typeof setUsers>
+type SetCurrentPageAT = ReturnType<typeof setCurrentPage>
+type setUsersTotalCountAT = ReturnType<typeof setUsersTotalCount>
+type toggleIsFetchingAT = ReturnType<typeof toggleIsFetching>
 export type UsersAT = FollowAT | UnfollowAT | SetUsersAT | SetCurrentPageAT | setUsersTotalCountAT | toggleIsFetchingAT
 
 export type UserType = {
@@ -57,11 +57,11 @@ const usersReducer = (state: InitialStateType = initialState, action: UsersAT): 
     }
 }
 
-export const followAC = (userId: number) => ({type: 'FOLLOW', userId}) as const
-export const unfollowAC = (userId: number) => ({type: 'UNFOLLOW', userId}) as const
-export const setUsersAC = (users: UserType[]) => ({type: 'SET-USERS', users}) as const
-export const setCurrentPageAC = (currentPage: number) => ({type: 'SET-CURRENT-PAGE', currentPage}) as const
-export const setUsersTotalCountAC = (totalUsersCount: number) => ({type: 'SET-USERS-TOTAL-COUNT', totalUsersCount}) as const
-export const toggleIsFetchingAC = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING', isFetching}) as const
+export const follow = (userId: number) => ({type: 'FOLLOW', userId}) as const
+export const unfollow = (userId: number) => ({type: 'UNFOLLOW', userId}) as const
+export const setUsers = (users: UserType[]) => ({type: 'SET-USERS', users}) as const
+export const setCurrentPage = (currentPage: number) => ({type: 'SET-CURRENT-PAGE', currentPage}) as const
+export const setUsersTotalCount = (totalUsersCount: number) => ({type: 'SET-USERS-TOTAL-COUNT', totalUsersCount}) as const
+export const toggleIsFetching = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING', isFetching}) as const
 
 export default usersReducer;

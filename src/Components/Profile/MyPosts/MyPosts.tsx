@@ -7,7 +7,7 @@ import {PostsType} from "../../../Redux/profile-reducer";
 
 export const MyPosts = (props: MyPostsType) => {
     let messagesData = props.posts.posts.map((item: PostsType) =>
-        <Post id={item.id} message={item.message} likesCount={item.likesCount}/>
+        <Post key={item.id} id={item.id} message={item.message} likesCount={item.likesCount}/>
     )
 
     const onClickAddPost = () => {

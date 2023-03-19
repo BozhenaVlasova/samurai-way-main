@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from "./Users.module.css";
 import userPhoto from "../../Assets/images/user.png";
-import {toggleFollowingProgress, UserType} from "../../Redux/users-reducer";
+import {follow, unfollow, UserType} from "../../Redux/users-reducer";
 import {NavLink} from "react-router-dom";
-import axios from "axios";
+import {UsersAPI} from "../../Api/api";
 
 type UsersType = {
     totalUsersCount: number
@@ -42,30 +42,10 @@ const Users: React.FC<UsersType> = (props) => {
                             </div>
                             <div>
                                 {user.followed
-                                    ? <button disabled={props.followingInProgress.some(id => id ===user.id)} onClick={() => {
-                                        props.toggleFollowingProgress(true, user.id)
-                                        axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {
-                                            withCredentials: true,
-                                            headers: {
-                                                'API-KEY': '3435f0c8-67ec-4233-9844-ac53fb21d53b'
-                                            }
-                                        }).then(res => {
-                                            if (res.data.resultCode === 0) props.unfollow(user.id)
-                                            props.toggleFollowingProgress(false, user.id)
-                                        })
-                                    }}>Unfollow</button>
-                                    : <button disabled={props.followingInProgress.some(id => id ===user.id)} onClick={() => {
-                                        props.toggleFollowingProgress(true, user.id)
-                                        axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {}, {
-                                            withCredentials: true,
-                                            headers: {
-                                                "API-KEY": "3435f0c8-67ec-4233-9844-ac53fb21d53b"
-                                            }
-                                        }).then(res => {
-                                            if (res.data.resultCode === 0) props.follow(user.id)
-                                            props.toggleFollowingProgress(false, user.id)
-                                        })
-                                    }}>Follow</button>}
+                                    ? <button disabled={props.followingInProgress.some(id => id ===user.id)}
+                                              onClick={() => UsersAPI.unfollow(user.id)}>Unfollow</button>
+                                    : <button disabled={props.followingInProgress.some(id => id ===user.id)}
+                                              onClick={() => UsersAPI.follow(user.id)}>Follow</button>}
                             </div>
                         </span>
                     <span>

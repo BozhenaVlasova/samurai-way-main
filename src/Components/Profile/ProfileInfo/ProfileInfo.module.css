@@ -5,3 +5,8 @@
 .avaAndDescription {
     margin: 10px;
 }
+
+.avaAndDescription img {
+    width: 200px;
+    height: 200px;
+}

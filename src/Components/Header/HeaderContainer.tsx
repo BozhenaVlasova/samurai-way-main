@@ -3,7 +3,7 @@ import {AppStateType} from "../../Redux/redux-store";
 import {Header} from "./Header";
 import {connect} from "react-redux";
 import {getUserData, setUserData} from "../../Redux/auth-reducer";
-import {withAuthRedirect} from "../../HOC/withAuthRedirect";
+import {compose} from "redux";
 
 class HeaderContainer extends React.Component<UsersComponentType, AppStateType> {
     componentDidMount() {
@@ -16,7 +16,6 @@ class HeaderContainer extends React.Component<UsersComponentType, AppStateType> 
 }
 
 type MapStateToPropsType = {
-    isAuth: boolean
     login: string
 }
 type MapDispatchToPropsType = {
@@ -26,13 +25,11 @@ type MapDispatchToPropsType = {
 
 let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
-        isAuth: state.auth.isAuth,
         login: state.auth.login
     }
 }
 
-let AuthRedirectComponent = withAuthRedirect(HeaderContainer)
-
 export type UsersComponentType = MapStateToPropsType & MapDispatchToPropsType
 
-export default connect(mapStateToProps, {setUserData, getUserData})(AuthRedirectComponent);
+export default compose<React.ComponentType>(connect(mapStateToProps, {setUserData, getUserData}))
+(HeaderContainer);

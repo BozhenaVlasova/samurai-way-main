@@ -2,8 +2,7 @@ import React, {ChangeEvent} from 'react';
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {DialogsType} from "./DialogsComponent";
-import {Redirect} from "react-router-dom";
+import {DialogsType} from "./DialogsContainer";
 
 
 const Dialogs: React.FC<DialogsType> = (props) => {

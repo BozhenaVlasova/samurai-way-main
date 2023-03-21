@@ -1,10 +1,9 @@
 import React from "react";
 import {AppStateType} from "../../Redux/redux-store";
 import {Header} from "./Header";
-import axios from "axios";
 import {connect} from "react-redux";
 import {getUserData, setUserData} from "../../Redux/auth-reducer";
-import {AuthAPI} from "../../Api/api";
+import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 
 class HeaderContainer extends React.Component<UsersComponentType, AppStateType> {
     componentDidMount() {
@@ -32,6 +31,8 @@ let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     }
 }
 
+let AuthRedirectComponent = withAuthRedirect(HeaderContainer)
+
 export type UsersComponentType = MapStateToPropsType & MapDispatchToPropsType
 
-export default connect(mapStateToProps, {setUserData, getUserData})(HeaderContainer);
+export default connect(mapStateToProps, {setUserData, getUserData})(AuthRedirectComponent);

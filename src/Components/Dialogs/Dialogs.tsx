@@ -20,8 +20,6 @@ const Dialogs: React.FC<DialogsType> = (props) => {
         props.onClickSendMessage()
     }
 
-    if (!props.isAuth) return <Redirect to={'/login'} />
-
     return (
         <div className={s.dialogs}>
             <div className={s.dialogItem}>

@@ -2,7 +2,13 @@ import React from "react";
 import {AppStateType} from "../../Redux/redux-store";
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
-import {getUserProfile, setUserProfile, updateUserStatus, UserProfileType} from "../../Redux/profile-reducer";
+import {
+    getUserProfile,
+    getUserStatus,
+    setUserProfile,
+    updateUserStatus,
+    UserProfileType
+} from "../../Redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {compose} from "redux";
 
@@ -50,6 +56,6 @@ let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     }
 }
 
-export default compose<React.ComponentType>(connect(mapStateToProps, {setUserProfile, getUserProfile, updateUserStatus}),
+export default compose<React.ComponentType>(connect(mapStateToProps, {setUserProfile, getUserProfile, getUserStatus, updateUserStatus}),
     withRouter)
 (ProfileContainer)

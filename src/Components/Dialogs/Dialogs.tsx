@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
@@ -6,7 +6,7 @@ import {DialogsType} from "./DialogsContainer";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 
 export type NewMessageFormDataType = {
-    newMessage: string
+    newMessageBody: string
 }
 
 const Dialogs: React.FC<DialogsType> = (props) => {
@@ -15,7 +15,7 @@ const Dialogs: React.FC<DialogsType> = (props) => {
     let messagesData = props.dialogsPage.messages.map(item =>
         <Message id={item.id} message={item.message}/>)
 
-    const addNewMessage = (values: any) => {
+    const addNewMessage = (values: NewMessageFormDataType) => {
         props.onClickSendMessage(values.newMessageBody)
     }
 

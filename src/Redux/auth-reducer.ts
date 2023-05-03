@@ -5,35 +5,47 @@ type SetUserDataAT = ReturnType<typeof setUserData>
 export type UsersAT = SetUserDataAT
 
 export type InitialStateType = {
-    id: number,
-    email: string,
-    login: string,
+    id: number | null,
+    email: string | null,
+    login: string | null,
     isAuth: boolean
 }
 
 let initialState = {
-    id: 0,
-    email: '',
-    login: '',
+    id: null,
+    email: null,
+    login: null,
     isAuth: false
 }
 
 const authReducer = (state: InitialStateType = initialState, action: UsersAT): InitialStateType => {
     switch (action.type) {
         case "SET-USER-DATA":
-            return {...action.data, isAuth: true}
+            return {...action.payload}
         default:
             return state
     }
 }
 // actions
-export const setUserData = (id: number, email: string, login: string) => ({type: 'SET-USER-DATA', data: {id, email, login}}) as const
+export const setUserData = (id: number | null, email: string | null, login: string | null, isAuth: boolean) => ({type: 'SET-USER-DATA', payload: {id, email, login, isAuth}}) as const
 
 // thunks
 export const getUserData = () => (dispatch: Dispatch) => {
     AuthAPI.getMe().then(res => {
         let {id, email, login} = res.data.data
-        if (res.data.resultCode === 0) dispatch(setUserData(id, email, login))
+        if (res.data.resultCode === 0) dispatch(setUserData(id, email, login, true))
+    })
+}
+
+export const login = (email: string, password: string, rememberMe: boolean) => (dispatch: Dispatch) => {
+    AuthAPI.login(email, password, rememberMe).then(res => {
+        if (res.data.resultCode === 0) getUserData()
+    })
+}
+
+export const logout = () => (dispatch: Dispatch) => {
+    AuthAPI.logout().then(res => {
+        if (res.data.resultCode === 0) dispatch(setUserData(null, null, null, false))
     })
 }
 
